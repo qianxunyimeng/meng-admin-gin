@@ -1,0 +1,16 @@
+name: meng-admin-gin
+description: 基于gin+React+antd的RBAC权限管理系统
+version: 0.0.1
+
+
+system:
+  env: "local"
+  db-type: "mysql"
+  oss-type: "local"
+  router-prefix: ""
+  port: 8888
+  iplimit-count: 15000
+  iplimit-time: 3600
+  use-multipoint: false
+  use-redis: false
+  use-mongo: false
