@@ -1,10 +1,10 @@
 package initialize
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"meng-admin-gin/core"
+	"meng-admin-gin/global"
 )
 
 func Routes() {
@@ -25,6 +25,9 @@ func Routes() {
 		//os.Exit(-1)
 	}
 
-	fmt.Println(r)
+	r.Use(gin.Recovery())
+	if global.MA_CONFIG.System.Env != "public" {
+		r.Use(gin.Logger())
+	}
 
 }

@@ -1,7 +1,7 @@
 package config
 
 type System struct {
-	Env           string `mapstructure:"env" json:"env" yaml:"env"`                // 环境值 dev:开发环境 pro:生产环境
+	Env           string `mapstructure:"env" json:"env" yaml:"env"`                // 环境值 dev:开发模式 pro:生产模式 test: 测试模式
 	DbType        string `mapstructure:"db-type" json:"db-type" yaml:"db-type"`    // 数据库类型:mysql(默认)|sqlite|sqlserver|postgresql
 	OssType       string `mapstructure:"oss-type" json:"oss-type" yaml:"oss-type"` // Oss类型
 	RouterPrefix  string `mapstructure:"router-prefix" json:"router-prefix" yaml:"router-prefix"`

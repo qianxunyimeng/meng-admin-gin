@@ -6,8 +6,8 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"meng-admin-gin/core"
 	"meng-admin-gin/core/inner"
+	"meng-admin-gin/global"
 	"os"
 	"path/filepath"
 )
@@ -22,13 +22,13 @@ func InitViper() *viper.Viper {
 		if configPathEnv := os.Getenv(inner.ConfigPathEnv); configPathEnv == "" {
 			fmt.Println("gin mode:", gin.Mode())
 			switch gin.Mode() {
-			case gin.DebugMode:
+			case gin.DebugMode: // 开发模式
 				configPath = inner.ConfigDefaultFile
 				fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, inner.ConfigDefaultFile)
-			case gin.ReleaseMode:
+			case gin.ReleaseMode: // 生产模式
 				configPath = inner.ConfigReleaseFile
 				fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, inner.ConfigReleaseFile)
-			case gin.TestMode:
+			case gin.TestMode: // 测试模式
 				configPath = inner.ConfigTestFile
 				fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, inner.ConfigTestFile)
 			}
@@ -49,14 +49,14 @@ func InitViper() *viper.Viper {
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("config file changed:", e.Name)
-		if err = v.Unmarshal(&core.MG_CONGIG); err != nil {
+		if err = v.Unmarshal(&global.MA_CONFIG); err != nil {
 			fmt.Println(err)
 		}
 	})
-	if err = v.Unmarshal(&core.MG_CONGIG); err != nil {
+	if err = v.Unmarshal(&global.MA_CONFIG); err != nil {
 		panic(err)
 	}
 	// root 适配性 根据root位置去找到对应迁移位置,保证root路径有效
-	core.MG_CONGIG.AutoCode.Root, _ = filepath.Abs("..")
+	global.MA_CONFIG.AutoCode.Root, _ = filepath.Abs("..")
 	return v
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"meng-admin-gin/core"
+	"meng-admin-gin/global"
 	"meng-admin-gin/router"
 	"net/http"
 	"time"
@@ -25,7 +26,7 @@ func RunServer() {
 		f()
 	}
 
-	address := fmt.Sprintf(":%d", core.MG_CONGIG.System.Port)
+	address := fmt.Sprintf(":%d", global.MA_CONFIG.System.Port)
 	s := initServer(address, core.Runtime.GetEngine())
 
 	fmt.Printf(`

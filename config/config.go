@@ -1,7 +1,8 @@
 package config
 
-type MGServer struct {
+type Config struct {
 	JWT      JWT      `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
 	System   System   `mapstructure:"system" json:"system" yaml:"system"`
 	AutoCode Autocode `mapstructure:"autocode" json:"autocode" yaml:"autocode"`
+	Zap      Zap      `mapstructure:"zap" json:"zap" yaml:"zap"`
 }

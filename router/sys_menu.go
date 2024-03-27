@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"meng-admin-gin/api/v1/system"
+	"meng-admin-gin/api/system"
 	jwt "meng-admin-gin/core/jwtauth"
 )
 

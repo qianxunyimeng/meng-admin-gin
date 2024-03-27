@@ -14,3 +14,14 @@ system:
   use-multipoint: false
   use-redis: false
   use-mongo: false
+
+zap:
+  level: info
+  prefix: '[Meng Admin]'
+  format: console
+  director: log
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true
