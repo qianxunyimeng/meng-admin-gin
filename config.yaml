@@ -4,7 +4,7 @@ version: 0.0.1
 
 
 system:
-  env: "local"
+  env: "dev"
   db-type: "mysql"
   oss-type: "local"
   router-prefix: ""
@@ -25,3 +25,18 @@ zap:
   max-age: 0
   show-line: true
   log-in-console: true
+
+mysql:
+  prefix: ""
+  port: "3306"
+  config: charset=utf8mb4&parseTime=True&loc=Local
+  db-name: meng-admin
+  username: root
+  password: 955330@_
+  path: 127.0.0.1
+  engine: ""
+  log-mode: error
+  max-idle-conns: 10
+  max-open-conns: 100
+  singular: false
+  log-zap: false
