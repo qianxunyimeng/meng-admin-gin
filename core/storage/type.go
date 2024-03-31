@@ -9,6 +9,7 @@ const (
 	PrefixKey = "__host"
 )
 
+// 缓存适配器
 type AdapterCache interface {
 	String() string
 	Get(key string) (string, error)

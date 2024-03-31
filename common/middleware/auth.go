@@ -13,8 +13,8 @@ func AuthInit() (*jwt.GinJWTMiddleware, error) {
 	if global.MA_CONFIG.System.Env == "dev" {
 		timeout = time.Duration(876010) * time.Hour
 	} else {
-		if global.MA_CONFIG.JWT.ExpiresTime != 0 {
-			timeout = time.Duration(global.MA_CONFIG.JWT.ExpiresTime) * time.Second
+		if global.MA_CONFIG.JWT.ExpiresTime != "" {
+			//timeout = time.Duration(global.MA_CONFIG.JWT.ExpiresTime) * time.Second
 		}
 	}
 	return jwt.New(&jwt.GinJWTMiddleware{

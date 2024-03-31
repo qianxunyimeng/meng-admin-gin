@@ -3,39 +3,37 @@ package system
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
+	"github.com/gin-gonic/gin/binding"
 	"meng-admin-gin/common/respcode"
 	"meng-admin-gin/core/api"
-	"meng-admin-gin/global"
-	"meng-admin-gin/model/base/request"
-	"meng-admin-gin/utils"
+	"meng-admin-gin/service/dto"
+	sysService "meng-admin-gin/service/system"
 )
 
-type BaseApi struct {
+type SysUserApi struct {
 	api.Api
 }
 
-func (r *BaseApi) Login(c *gin.Context) {
-	r.MakeContext(c)
-	var login request.Login
-
-	err := c.ShouldBind(&login)
+// 用户注册
+func (r *SysUserApi) Register(c *gin.Context) {
+	fmt.Println("用户注册...")
+	s := sysService.SysUserService{}
+	req := dto.SysUserRegisterReq{}
+	// 校验信息
+	err := r.MakeContext(c).MakeOrm().Bind(&req, binding.JSON).MakeService(&s.Service).Errors
 	if err != nil {
-		transError, ok := err.(validator.ValidationErrors)
-		if !ok {
-			// 转换失败，返回原始错误信息
-			r.Error(respcode.ErrorParam, err, err.Error())
-			return
-		}
-		fmt.Println(utils.RemoveTopStruct(transError.Translate(global.MA_TRANS)))
-		r.ErrorTrans(respcode.ErrorParam, utils.RemoveTopStruct(transError.Translate(global.MA_TRANS)))
+		r.Logger.Error(err.Error())
+		r.Error(respcode.ErrorParam, err.Error())
 		return
-
-		//c.JSON(500, gin.H{"msg": err.Error()})
-		//return
+	}
+	// 设置创建人
+	req.SetCreateBy(1)
+	err = s.Insert(&req)
+	if err != nil {
+		r.Logger.Error(err.Error())
+		r.Error(respcode.Error, err.Error())
+		return
 	}
 
-	fmt.Println(login)
-
-	r.OK("token:111", "登录成功")
+	r.OK("注册cg", "注册成功")
 }

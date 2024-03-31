@@ -8,4 +8,5 @@ const (
 	Error
 	ErrorParam   // 参数错误
 	UnAuthorized // 未授权
+	FORBIDDEN    // 未登录 或 非法访问
 )

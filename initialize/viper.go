@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 	"meng-admin-gin/core/inner"
 	"meng-admin-gin/global"
+	"meng-admin-gin/utils"
 	"os"
 	"path/filepath"
 )
@@ -56,6 +57,13 @@ func InitViper() *viper.Viper {
 	if err = v.Unmarshal(&global.MA_CONFIG); err != nil {
 		panic(err)
 	}
+
+	dr, err := utils.ParseDuration(global.MA_CONFIG.JWT.ExpiresTime)
+	if err != nil {
+		panic(err)
+	}
+	global.MA_JWT_EXP = dr
+
 	// root 适配性 根据root位置去找到对应迁移位置,保证root路径有效
 	global.MA_CONFIG.AutoCode.Root, _ = filepath.Abs("..")
 	return v

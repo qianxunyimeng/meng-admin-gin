@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"meng-admin-gin/api/system"
+	"meng-admin-gin/common/middleware"
 	jwt "meng-admin-gin/core/jwtauth"
 )
 
@@ -20,7 +21,16 @@ func systemInternalRouteInit(r *gin.Engine, authMiddleware *jwt.GinJWTMiddleware
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("/login", api.Login)
-		// Refresh time can be longer than token timeout
-		v1.GET("/refresh_token", authMiddleware.RefreshHandler)
+		v1.GET("/captcha", api.GenerateCaptcha)
+	}
+
+	registerBaseRouter(v1)
+}
+
+func registerBaseRouter(v1 *gin.RouterGroup) {
+	v1auth := v1.Group("").Use(middleware.JWTAuth())
+	api := system.SysApiGroup{}
+	{
+		v1auth.POST("/logout", api.Logout)
 	}
 }

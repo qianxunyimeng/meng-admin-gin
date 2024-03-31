@@ -15,6 +15,8 @@ func main() {
 	// 初始化 zap
 	global.MA_LOG = initialize.InitZap()
 	zap.ReplaceGlobals(global.MA_LOG)
+	// 初始化存储系统
+	initialize.InitStorage()
 
 	// gin表单校验翻译器
 	trans, _ := initialize.InitTranslate("zh")

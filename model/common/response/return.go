@@ -4,7 +4,9 @@
 package response
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"meng-admin-gin/common/respcode"
 	"meng-admin-gin/utils"
 	"net/http"
 )
@@ -12,11 +14,8 @@ import (
 var Default = &response{}
 
 // Error 失败数据处理
-func Error(c *gin.Context, code int, err error, msg string) {
+func Error(c *gin.Context, code int, msg string) {
 	res := Default.Clone()
-	if err != nil {
-		res.SetMsg(err.Error())
-	}
 	if msg != "" {
 		res.SetMsg(msg)
 	}
@@ -47,7 +46,9 @@ func OK(c *gin.Context, data interface{}, msg string) {
 		res.SetMsg(msg)
 	}
 	res.SetTraceID(utils.GetTranceId(c))
-	res.SetCode(http.StatusOK)
+	res.SetCode(respcode.Success)
+
+	fmt.Println(res)
 	c.Set("result", res)
 	c.Set("status", http.StatusOK)
 	c.AbortWithStatusJSON(http.StatusOK, res)

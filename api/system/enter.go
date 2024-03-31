@@ -4,5 +4,6 @@
 package system
 
 type SysApiGroup struct {
-	BaseApi
+	SysUserApi
+	SysBaseApi
 }

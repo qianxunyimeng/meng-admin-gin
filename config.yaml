@@ -2,6 +2,17 @@ name: meng-admin-gin
 description: 基于gin+React+antd的RBAC权限管理系统
 version: 0.0.1
 
+captcha:
+  key-long: 6
+  img-width: 240
+  img-height: 80
+  open-captcha: 0
+  open-captcha-timeout: 3600
+
+redis:
+  addr: 122.152.198.22:7001
+  password: "633@s_0"
+  db: 0
 
 system:
   env: "dev"
@@ -11,9 +22,19 @@ system:
   port: 8888
   iplimit-count: 15000
   iplimit-time: 3600
+  cache-type: "redis" # 缓存类型 redis 或 memory
   use-multipoint: false
-  use-redis: false
+  use-redis: false # 是否启用redis缓存
   use-mongo: false
+
+jwt:
+  signing-key: zjRW6R^MpK!Z&&&H^3gV%Kya&uTMBW!j
+  expires-time: 7d
+  buffer-time: 1d
+  issuer: "meng-admin"
+local:
+  path: uploads/file
+  store-path: uploads/file
 
 zap:
   level: info
@@ -28,12 +49,12 @@ zap:
 
 mysql:
   prefix: ""
-  port: "3306"
+  port: "33306"
   config: charset=utf8mb4&parseTime=True&loc=Local
   db-name: meng-admin
   username: root
   password: 955330@_
-  path: 127.0.0.1
+  path: 8.141.86.70
   engine: ""
   log-mode: error
   max-idle-conns: 10
