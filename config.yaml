@@ -10,8 +10,8 @@ captcha:
   open-captcha-timeout: 3600
 
 redis:
-  addr: 122.152.198.22:7001
-  password: "633@s_0"
+  addr:     # IP：端口
+  password:  #密码
   db: 0
 
 system:
@@ -52,9 +52,9 @@ mysql:
   port: "33306"
   config: charset=utf8mb4&parseTime=True&loc=Local
   db-name: meng-admin
-  username: root
-  password: 955330@_
-  path: 8.141.86.70
+  username: 
+  password: 
+  path: 
   engine: ""
   log-mode: error
   max-idle-conns: 10
