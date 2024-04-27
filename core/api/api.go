@@ -9,12 +9,14 @@ import (
 	vd "github.com/bytedance/go-tagexpr/v2/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"meng-admin-gin/core/service"
 	"meng-admin-gin/core/storage"
 	"meng-admin-gin/global"
 	"meng-admin-gin/model/common/response"
+	"meng-admin-gin/utils"
 )
 
 type Api struct {
@@ -24,6 +26,10 @@ type Api struct {
 	Cache   storage.AdapterCache
 	Errors  error
 }
+
+//type CustomError[T error | string] interface {
+//	Error(T)
+//}
 
 // 设置 http 上下文
 func (e *Api) MakeContext(c *gin.Context) *Api {
@@ -69,7 +75,6 @@ func (e *Api) Bind(d interface{}, bindings ...binding.Binding) *Api {
 	if len(bindings) == 0 {
 		bindings = constructor.GetBindingForGin(d)
 	}
-	fmt.Println(bindings)
 	for i := range bindings {
 		if bindings[i] == nil {
 			err = e.Context.ShouldBindUri(d)
@@ -91,19 +96,50 @@ func (e *Api) Bind(d interface{}, bindings ...binding.Binding) *Api {
 	//	return fmt.Errorf(`"validation failed: %s %s"`, failPath, msg)
 	//})
 	if err1 := vd.Validate(d); err1 != nil {
+		fmt.Println("err1:", err1.Error())
 		e.AddError(err1)
 	}
 	return e
 }
 
 // Error 通常错误数据处理
-func (e Api) Error(code int, msg string) {
+func (e Api) Error(code int, err interface{}) {
+	//var msg interface{} = err
+	//
+	switch err.(type) {
+	case error:
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			// 转换失败，返回原始错误信息
+			response.Error(e.Context, code, err.(error).Error())
+		} else {
+			fmt.Println("err2::", utils.RemoveTopStruct2(errs.Translate(global.MA_TRANS)))
+			response.Error(e.Context, code, utils.RemoveTopStruct2(errs.Translate(global.MA_TRANS)))
+		}
+	case string:
+		response.Error(e.Context, code, err)
+
+	default:
+		response.Error(e.Context, code, err)
+	}
+
+	//errs, ok := err.(validator.ValidationErrors)
+	//if !ok {
+	//	// 转换失败，返回原始错误信息
+	//	response.Error(e.Context, code, err.Error())
+	//} else {
+	//	response.Error(e.Context, code, utils.RemoveTopStruct2(errs.Translate(global.MA_TRANS)))
+	//}
+
+}
+
+func (e Api) ErrorMsg(code int, msg string) {
 	response.Error(e.Context, code, msg)
 }
 
-func (e Api) ErrorTrans(code int, msg map[string]string) {
-	response.ErrorTrans(e.Context, code, msg)
-}
+//func (e Api) ErrorTrans(code int, msg map[string]string) {
+//	response.ErrorTrans(e.Context, code, msg)
+//}
 
 // OK 通常成功数据处理
 func (e Api) OK(data interface{}, msg string) {

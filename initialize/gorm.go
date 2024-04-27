@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"log"
-	"meng-admin-gin/common/models/system"
+	"meng-admin-gin/common/models"
 	"meng-admin-gin/global"
 	"os"
 	"time"
@@ -63,12 +63,12 @@ func InitGorm() *gorm.DB {
 func RegisterTables() {
 	db := global.MA_DB
 	err := db.AutoMigrate(
-		system.SysApi{},  // api
-		system.SysUser{}, // 用户
-		system.SysMenu{}, // 菜单
-		system.SysRole{}, // 角色
-		system.SysDept{}, // 部门
-		system.SysPost{}, // 岗位
+		models.SysApi{},  // api
+		models.SysUser{}, // 用户
+		models.SysMenu{}, // 菜单
+		models.SysRole{}, // 角色
+		models.SysDept{}, // 部门
+		models.SysPost{}, // 岗位
 	)
 	if err != nil {
 		global.MA_LOG.Error("register table failed", zap.Error(err))

@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"go.uber.org/zap"
-	sysModel "meng-admin-gin/common/models/system"
+	sysModel "meng-admin-gin/common/models"
 	"meng-admin-gin/common/respcode"
 	"meng-admin-gin/global"
 	"meng-admin-gin/service"

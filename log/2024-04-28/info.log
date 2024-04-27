@@ -1,0 +1,8 @@
+[Meng Admin]2024/04/28 - 01:15:43.089	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}
+[Meng Admin]2024/04/28 - 01:15:43.148	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/gorm.go:77	register table success
+[Meng Admin]2024/04/28 - 01:16:59.776	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}
+[Meng Admin]2024/04/28 - 01:16:59.822	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/gorm.go:77	register table success
+[Meng Admin]2024/04/28 - 01:23:00.163	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}
+[Meng Admin]2024/04/28 - 01:26:08.378	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}
+[Meng Admin]2024/04/28 - 01:27:29.149	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}
+[Meng Admin]2024/04/28 - 01:32:11.439	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}

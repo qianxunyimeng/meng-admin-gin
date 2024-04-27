@@ -1,0 +1,2 @@
+[Meng Admin]2024/04/13 - 18:19:12.596	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}
+[Meng Admin]2024/04/13 - 18:28:57.597	[34minfo[0m	/Users/shiqingliang/Documents/Projects/PersonalProjects/meng-admin/meng-admin-gin/initialize/redis.go:25	redis connect ping response:	{"pong": "PONG"}

@@ -5,14 +5,15 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"meng-admin-gin/global"
 	"net"
 	"strings"
 )
 
-const COOKIE_TOKEN_KEY = "admin-token"
-const TOKEN_FROM = `header: Authorization, query: token, param: token, cookie: ${COOKIE_TOKEN_KEY}`
+const COOKIE_TOKEN_KEY = "mg-token"
+const TOKEN_FROM = "header: Authorization, query: token, param: token, cookie: mg-token"
 const TOKEN_HEADER_NAME = "Bearer"
 
 var ErrEmptyAuthHeader = errors.New("auth header is empty")
@@ -44,9 +45,9 @@ func SetCookie(c *gin.Context, token string, maxAge int) {
 	}
 
 	if net.ParseIP(host) != nil {
-		c.SetCookie(COOKIE_TOKEN_KEY, token, maxAge, "/", "", false, true)
+		c.SetCookie(COOKIE_TOKEN_KEY, token, maxAge, "/", "", false, false)
 	} else {
-		c.SetCookie(COOKIE_TOKEN_KEY, token, maxAge, "/", host, false, true)
+		c.SetCookie(COOKIE_TOKEN_KEY, token, maxAge, "/", host, false, false)
 	}
 }
 
@@ -103,6 +104,7 @@ func TokenFromQuery(c *gin.Context, key string) (string, error) {
 }
 
 func TokenFromCookie(c *gin.Context, key string) (string, error) {
+	fmt.Println("token from cookie: ", key)
 	cookie, _ := c.Cookie(key)
 
 	if cookie == "" {

@@ -5,9 +5,9 @@ package system
 
 import (
 	"errors"
-	"meng-admin-gin/common/models/system"
+	"meng-admin-gin/common/dto"
+	"meng-admin-gin/common/models"
 	"meng-admin-gin/core/service"
-	"meng-admin-gin/service/dto"
 )
 
 type SysUserService struct {
@@ -16,7 +16,7 @@ type SysUserService struct {
 
 func (s *SysUserService) Insert(d *dto.SysUserRegisterReq) error {
 	var err error
-	var data system.SysUser
+	var data models.SysUser
 	var i int64
 	err = s.Orm.Model(&data).Where("username = ?", d.Username).Count(&i).Error
 	if err != nil {

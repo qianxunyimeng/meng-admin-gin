@@ -14,7 +14,7 @@ import (
 var Default = &response{}
 
 // Error 失败数据处理
-func Error(c *gin.Context, code int, msg string) {
+func Error(c *gin.Context, code int, msg interface{}) {
 	res := Default.Clone()
 	if msg != "" {
 		res.SetMsg(msg)

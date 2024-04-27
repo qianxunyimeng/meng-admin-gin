@@ -24,8 +24,8 @@ func InitViper() *viper.Viper {
 			fmt.Println("gin mode:", gin.Mode())
 			switch gin.Mode() {
 			case gin.DebugMode: // 开发模式
-				configPath = inner.ConfigDefaultFile
-				fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, inner.ConfigDefaultFile)
+				configPath = inner.ConfigDevFile
+				fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, inner.ConfigDevFile)
 			case gin.ReleaseMode: // 生产模式
 				configPath = inner.ConfigReleaseFile
 				fmt.Printf("您正在使用gin模式的%s环境名称,config的路径为%s\n", gin.EnvGinMode, inner.ConfigReleaseFile)

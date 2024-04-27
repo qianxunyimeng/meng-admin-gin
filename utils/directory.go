@@ -8,15 +8,7 @@ import (
 	"os"
 )
 
-// @Title PathExists
-//
-//	@Description: 判断文件是否存在
-//
-// @Author shiqingliang 2024-03-26 00:16:29 ${time}
-//
-//	@param path
-//	@return bool
-//	@return error
+// PathExists 判断文件是否存在
 func PathExists(path string) (bool, error) {
 	fi, err := os.Stat(path)
 	if err == nil {

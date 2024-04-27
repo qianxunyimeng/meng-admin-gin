@@ -5,7 +5,7 @@ package system
 
 import (
 	"context"
-	"meng-admin-gin/common/models/system"
+	"meng-admin-gin/common/models"
 	"meng-admin-gin/global"
 )
 
@@ -25,7 +25,7 @@ func (jwtService *JwtService) SetRedisJWT(jwt string, userName string) (err erro
 }
 
 // 把旧的jwt 存入redis，防止下次用旧的token请求接口
-func (jwtService *JwtService) JsonInBlacklist(jwtList system.JwtBlacklist) (err error) {
+func (jwtService *JwtService) JsonInBlacklist(jwtList models.JwtBlacklist) (err error) {
 	global.MA_CACHE.Set(jwtList.Jwt, struct{}{}, int(global.MA_JWT_EXP.Seconds()))
 	return
 }
