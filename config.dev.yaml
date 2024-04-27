@@ -54,7 +54,7 @@ mysql:
   db-name: meng-admin
   username: root
   password: 955330@_
-  path: 127.0.0.1
+  path:
   engine: ""
   log-mode: error
   max-idle-conns: 10
