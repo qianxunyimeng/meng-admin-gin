@@ -1,6 +1,6 @@
 package handler
 
-import "meng-admin-gin/common/models"
+import "meng-admin-gin/common/model"
 
 type SysUser struct {
 	UserId   int    `gorm:"primaryKey;autoIncrement;comment:编码"  json:"userId"`
@@ -21,6 +21,6 @@ type SysUser struct {
 	PostIds  []int  `json:"postIds" gorm:"-"`
 	RoleIds  []int  `json:"roleIds" gorm:"-"`
 	//Dept     *SysDept `json:"dept"`
-	models.ControlBy
-	models.ModelTime
+	model.ControlBy
+	model.ModelTime
 }

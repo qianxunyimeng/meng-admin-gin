@@ -1,6 +1,8 @@
 package handler
 
-import "meng-admin-gin/common/models"
+import (
+	"meng-admin-gin/common/model"
+)
 
 type SysRole struct {
 	RoleId    int    `json:"roleId" gorm:"primaryKey;autoIncrement"` // 角色编码
@@ -15,8 +17,8 @@ type SysRole struct {
 	Params    string `json:"params" gorm:"-"`
 	MenuIds   []int  `json:"menuIds" gorm:"-"`
 	DeptIds   []int  `json:"deptIds" gorm:"-"`
-	models.ControlBy
-	models.ModelTime
+	model.ControlBy
+	model.ModelTime
 }
 
 func (SysRole) TableName() string {

@@ -8,24 +8,25 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"go.uber.org/zap"
-	sysModel "meng-admin-gin/common/models"
-	"meng-admin-gin/common/respcode"
+	"meng-admin-gin/app/admin/model"
+	"meng-admin-gin/app/admin/service"
+	"meng-admin-gin/common/code"
+	"meng-admin-gin/common/response"
 	"meng-admin-gin/global"
-	"meng-admin-gin/service"
 	"meng-admin-gin/utils"
 	"net/http"
 	"strconv"
 	"time"
 )
 
-var jwtService = service.ServiceGroupApp.SystemServiceGroup.JwtService
+var jwtService = service.JwtService{}
 
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := utils.GetToken(c)
 		if token == "" {
 			c.JSON(http.StatusOK, gin.H{
-				"code": respcode.FORBIDDEN,
+				"code": code.UNAUTHORIZED,
 				"data": nil,
 				"msg":  "未登录或非法访问",
 			})
@@ -39,7 +40,7 @@ func JWTAuth() gin.HandlerFunc {
 		if err != nil {
 			if errors.Is(err, utils.TokenExpired) {
 				c.JSON(http.StatusOK, gin.H{
-					"code": respcode.Error,
+					"code": response.Error,
 					"data": nil,
 					"msg":  "授权已过期",
 				})
@@ -48,7 +49,7 @@ func JWTAuth() gin.HandlerFunc {
 				return
 			}
 			c.JSON(http.StatusOK, gin.H{
-				"code": respcode.Error,
+				"code": response.Error,
 				"data": nil,
 				"msg":  err.Error(),
 			})
@@ -71,7 +72,7 @@ func JWTAuth() gin.HandlerFunc {
 				if err != nil {
 					global.MA_LOG.Error("get redis jwt failed", zap.Error(err))
 				} else { // 当之前的取成功时才进行拉黑操作
-					_ = jwtService.JsonInBlacklist(sysModel.JwtBlacklist{Jwt: RedisJwtToken})
+					_ = jwtService.JsonInBlacklist(model.JwtBlacklist{Jwt: RedisJwtToken})
 				}
 				// 无论如何都要记录当前的活跃状态
 				_ = jwtService.SetRedisJWT(newToken, newClaims.Username)

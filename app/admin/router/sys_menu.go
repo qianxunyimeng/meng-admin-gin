@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"meng-admin-gin/api/system"
+	"meng-admin-gin/app/admin/api"
 	"meng-admin-gin/common/middleware"
 	jwt "meng-admin-gin/core/jwtauth"
 )
@@ -13,7 +13,7 @@ func init() {
 
 // 需认证的路由代码
 func registerSysMenuRouter(v1 *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) {
-	api := system.MenuApi{}
+	api := api.MenuApi{}
 
 	r := v1.Group("/menu").Use(middleware.JWTAuth())
 	{

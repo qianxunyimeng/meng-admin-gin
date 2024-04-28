@@ -3,9 +3,9 @@ package initialize
 import (
 	"fmt"
 	"github.com/fvbock/endless"
+	"meng-admin-gin/app/admin/router"
 	"meng-admin-gin/core"
 	"meng-admin-gin/global"
-	"meng-admin-gin/router"
 	"net/http"
 	"time"
 )

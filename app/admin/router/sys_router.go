@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"meng-admin-gin/api/system"
+	"meng-admin-gin/app/admin/api"
 	"meng-admin-gin/common/middleware"
 	jwt "meng-admin-gin/core/jwtauth"
 	"meng-admin-gin/docs"
@@ -34,7 +34,7 @@ func sysSwaggerRouter(r *gin.RouterGroup) {
 // 初始化系统内置路由
 func systemInternalRouteInit(r *gin.Engine, authMiddleware *jwt.GinJWTMiddleware) {
 	fmt.Println("系统内置路由")
-	api := system.SysApiGroup{}
+	api := api.SysBaseApi{}
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("/login", api.Login)
@@ -46,7 +46,7 @@ func systemInternalRouteInit(r *gin.Engine, authMiddleware *jwt.GinJWTMiddleware
 
 func registerBaseRouter(v1 *gin.RouterGroup) {
 	v1auth := v1.Group("").Use(middleware.JWTAuth())
-	api := system.SysApiGroup{}
+	api := api.SysBaseApi{}
 	{
 		v1auth.POST("/logout", api.Logout)
 	}
