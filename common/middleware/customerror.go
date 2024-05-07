@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"meng-admin-gin/common/code"
 	"net/http"
 	"runtime"
 	"strconv"
@@ -43,13 +44,13 @@ func CustomError(c *gin.Context) {
 					})
 				} else {
 					c.JSON(http.StatusOK, gin.H{
-						"code": 500,
+						"code": code.ERROR,
 						"msg":  errStr,
 					})
 				}
 			case runtime.Error:
 				c.JSON(http.StatusOK, gin.H{
-					"code": 500,
+					"code": code.ERROR,
 					"msg":  errStr.Error(),
 				})
 			default:

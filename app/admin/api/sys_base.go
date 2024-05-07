@@ -32,10 +32,10 @@ var jwtService = service.JwtService{}
 // @Tags     Base
 // @Summary      用户登录
 // @Produce   application/json
-// @Param    data  body      request.Login   true  "用户名, 密码, 验证码"
+// @Param    data  body      dto.Login   true  "用户名, 密码, 验证码"
 // @Success  200   {object}  response.Response{data=dto.LoginResp,msg=string}  "返回包括用户信息,token,过期时间"
 // @Router   /api/v1/login [post]
-func (r *SysBaseApi) Login(c *gin.Context) {
+func (r SysBaseApi) Login(c *gin.Context) {
 	var login dto.Login
 	s := service.SysBaseService{}
 	err := r.MakeContext(c).MakeOrm().Bind(&login, binding.JSON).MakeService(&s.Service).Errors
@@ -79,7 +79,7 @@ func (r *SysBaseApi) Login(c *gin.Context) {
 	return
 }
 
-func (r *SysBaseApi) TokenNext(user model.SysUser) {
+func (r SysBaseApi) TokenNext(user model.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.MA_CONFIG.JWT.SigningKey)} // 唯一签名
 	claims := j.CreateClaims(utils.BaseClaims{
 		UserId:   user.UserId,
@@ -143,7 +143,7 @@ func (r *SysBaseApi) TokenNext(user model.SysUser) {
 
 }
 
-func (r *SysBaseApi) GenerateCaptcha(c *gin.Context) {
+func (r SysBaseApi) GenerateCaptcha(c *gin.Context) {
 	err := r.MakeContext(c).Errors
 	if err != nil {
 		r.ErrorWithMsg(code.ERROR, nil, "服务初始化失败！")
@@ -186,7 +186,7 @@ func (r *SysBaseApi) GenerateCaptcha(c *gin.Context) {
 	})
 }
 
-func (r *SysBaseApi) Logout(c *gin.Context) {
+func (r SysBaseApi) Logout(c *gin.Context) {
 	token := utils.GetToken(c)
 	jwt := model.JwtBlacklist{Jwt: token}
 	err := jwtService.JsonInBlacklist(jwt)

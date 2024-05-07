@@ -40,6 +40,7 @@ type SysMenu struct {
 
 type SysMenuSlice []SysMenu
 
+// 实现sort 接口 用来自定义排序
 func (x SysMenuSlice) Len() int           { return len(x) }
 func (x SysMenuSlice) Less(i, j int) bool { return x[i].Sort < x[j].Sort }
 func (x SysMenuSlice) Swap(i, j int)      { x[i], x[j] = x[j], x[i] }

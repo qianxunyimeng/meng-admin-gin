@@ -4,8 +4,8 @@
 package code
 
 const (
-	SUCCESS = iota
-	ERROR
-	INVALID_PARAM // 参数错误
-	UNAUTHORIZED  // 未授权
+	SUCCESS       = 0
+	ERROR         = 1
+	INVALID_PARAM = 2 // 参数错误
+	UNAUTHORIZED  = 3 // 未授权
 )

@@ -17,8 +17,16 @@ func registerSysMenuRouter(v1 *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddle
 
 	r := v1.Group("/menu").Use(middleware.JWTAuth())
 	{
-		r.GET("", api.GetMenu)
+		r.GET("", api.GetMenuList)
 		r.POST("", api.Insert)
+		r.GET("/:menuId", api.GetMenuById)
+		r.PUT("/:menuId", api.Update)
+		r.DELETE("", api.Delete)
+	}
+
+	r1 := v1.Group("/menu").Use(middleware.JWTAuth())
+	{
+		r1.GET("/getRouters", api.GetRouters)
 	}
 
 }

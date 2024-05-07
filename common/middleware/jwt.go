@@ -58,6 +58,7 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 		c.Set("claims", claims)
+		c.Set("JWT_PAYLOAD", claims)
 		c.Next()
 		if claims.ExpiresAt.Unix()-time.Now().Unix() < claims.BufferTime {
 			dr, _ := utils.ParseDuration(global.MA_CONFIG.JWT.ExpiresTime)

@@ -1,14 +1,5 @@
 definitions:
-  dto.LoginResp:
-    properties:
-      expiresAt:
-        type: integer
-      token:
-        type: string
-      user:
-        $ref: '#/definitions/system.SysUser'
-    type: object
-  request.Login:
+  dto.Login:
     properties:
       captcha:
         description: 验证码
@@ -23,22 +14,87 @@ definitions:
         description: 用户名
         type: string
     type: object
-  response.Response:
+  dto.LoginResp:
     properties:
-      code:
+      expiresAt:
         type: integer
-      msg: {}
-      requestId:
-        description: 数据集
+      token:
         type: string
+      user:
+        $ref: '#/definitions/model.SysUser'
+    type: object
+  dto.SysMenuDeleteReq:
+    properties:
+      createBy:
+        type: integer
+      ids:
+        items:
+          type: integer
+        type: array
+      updateBy:
+        type: integer
+    type: object
+  dto.SysMenuInsertReq:
+    properties:
+      action:
+        description: 请求方式
+        type: string
+      breadcrumb:
+        description: 是否面包屑
+        type: string
+      component:
+        description: 组件
+        type: string
+      createBy:
+        type: integer
+      icon:
+        description: 图标
+        type: string
+      isFrame:
+        description: 是否frame
+        type: string
+      isInternally:
+        type: string
+      menuId:
+        description: 编码
+        type: integer
+      menuName:
+        description: 菜单name
+        type: string
+      menuType:
+        description: 菜单类型
+        type: string
+      noCache:
+        description: 是否缓存
+        type: boolean
+      parentId:
+        description: 上级菜单
+        type: integer
+      path:
+        description: 路径
+        type: string
+      paths:
+        description: id路径
+        type: string
+      sort:
+        description: 排序
+        type: integer
       status:
         type: string
+      title:
+        description: 显示名称
+        type: string
+      updateBy:
+        type: integer
+      visible:
+        description: 是否显示
+        type: string
     type: object
-  system.SysDept:
+  model.SysDept:
     properties:
       children:
         items:
-          $ref: '#/definitions/system.SysDept'
+          $ref: '#/definitions/model.SysDept'
         type: array
       createBy:
         type: integer
@@ -79,7 +135,7 @@ definitions:
       updatedAt:
         type: string
     type: object
-  system.SysUser:
+  model.SysUser:
     properties:
       avatar:
         description: 用户头像
@@ -89,7 +145,7 @@ definitions:
       createdAt:
         type: string
       dept:
-        $ref: '#/definitions/system.SysDept'
+        $ref: '#/definitions/model.SysDept'
       deptId:
         type: integer
       deptIds:
@@ -136,8 +192,23 @@ definitions:
         description: 用户登录名
         type: string
     type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      msg:
+        type: string
+      requestId:
+        description: 数据集
+        type: string
+      status:
+        type: string
+    type: object
 info:
   contact: {}
+  description: 基于Gin + React + Antd 的前后端分离权限管理系统的接口文档
+  title: meng-admin API
+  version: 0.0.1
 paths:
   /api/v1/login:
     post:
@@ -147,7 +218,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.Login'
+          $ref: '#/definitions/dto.Login'
       produces:
       - application/json
       responses:
@@ -165,4 +236,94 @@ paths:
       summary: 用户登录
       tags:
       - Base
+  /api/v1/menu:
+    delete:
+      description: 删除数据
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysMenuDeleteReq'
+      responses:
+        "200":
+          description: '{"code": 200, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 删除菜单
+      tags:
+      - 菜单
+    get:
+      description: 获取JSON
+      parameters:
+      - description: menuName
+        in: query
+        name: menuName
+        type: string
+      responses:
+        "200":
+          description: '{"code": 0, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Menu列表数据
+      tags:
+      - 菜单
+    post:
+      consumes:
+      - application/json
+      description: 获取JSON
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysMenuInsertReq'
+      responses:
+        "200":
+          description: '{"code": 0, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 创建菜单
+      tags:
+      - 菜单
+  /api/v1/menu/{id}:
+    put:
+      consumes:
+      - application/json
+      description: 获取JSON
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysMenuInsertReq'
+      responses:
+        "200":
+          description: '{"code": 200, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 修改菜单
+      tags:
+      - 菜单
+  /api/v1/menurole:
+    get:
+      description: 获取JSON
+      responses:
+        "200":
+          description: '{"code": 200, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - Bearer: []
+      summary: 根据登录角色名称获取菜单列表数据（左菜单使用）
+      tags:
+      - 菜单
 swagger: "2.0"

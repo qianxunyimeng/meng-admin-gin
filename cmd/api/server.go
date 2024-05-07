@@ -55,7 +55,7 @@ func init() {
 // 执行 server 子命令前的初始化操作
 func setup() {
 	// 初始化 viper
-	global.MA_VP = initialize.InitViper()
+	global.MA_VP = initialize.InitViper(configYml)
 
 	// 初始化 zap
 	global.MA_LOG = initialize.InitZap()
@@ -65,8 +65,8 @@ func setup() {
 	initialize.InitStorage()
 
 	// gin表单校验翻译器
-	trans, _ := initialize.InitTranslate("zh")
-	global.MA_TRANS = trans
+	//trans, _ := initialize.InitTranslate("zh")
+	//global.MA_TRANS = trans
 
 	// 初始化数据库链接
 	global.MA_DB = initialize.InitGorm()

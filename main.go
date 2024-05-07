@@ -5,6 +5,10 @@ import (
 	"meng-admin-gin/global"
 )
 
+// @title meng-admin API
+// @version 0.0.1
+// @description 基于Gin + React + Antd 的前后端分离权限管理系统的接口文档
+
 func main() {
 
 	//// 初始化 viper

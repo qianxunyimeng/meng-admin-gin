@@ -5,6 +5,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"meng-admin-gin/app/admin/dto"
 	"meng-admin-gin/app/admin/model"
 	"meng-admin-gin/common/service"
@@ -30,6 +31,19 @@ func (s *SysUserService) Insert(d *dto.SysUserRegisterReq) error {
 	}
 	d.Generate(&data)
 	err = s.Orm.Create(&data).Error
+	if err != nil {
+		s.Log.Error(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (s *SysUserService) GetById(id int, result *model.SysUser) error {
+	var data model.SysUser
+	fmt.Println(id, result)
+	err := s.Orm.Model(&data).
+		First(result, id).Error
+
 	if err != nil {
 		s.Log.Error(err.Error())
 		return err

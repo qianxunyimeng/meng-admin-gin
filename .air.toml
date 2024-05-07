@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "meng-admin -c ./config.prod.yaml"
+  bin = "meng-admin server -c ./config.dev.yaml"
   cmd = "go build -o meng-admin main.go"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
