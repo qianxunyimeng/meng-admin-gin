@@ -4,12 +4,13 @@
 package initialize
 
 import (
+	adapter "github.com/casbin/gorm-adapter/v3"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"log"
-	"meng-admin-gin/app/admin/model"
+	"meng-admin-gin/app/admin/models"
 	"meng-admin-gin/global"
 	"os"
 	"time"
@@ -63,12 +64,13 @@ func InitGorm() *gorm.DB {
 func RegisterTables() {
 	db := global.MA_DB
 	err := db.AutoMigrate(
-		model.SysApi{},  // api
-		model.SysUser{}, // 用户
-		model.SysMenu{}, // 菜单
-		model.SysRole{}, // 角色
-		model.SysDept{}, // 部门
-		model.SysPost{}, // 岗位
+		models.SysApi{},  // api
+		models.SysUser{}, // 用户
+		models.SysMenu{}, // 菜单
+		models.SysRole{}, // 角色
+		models.SysDept{}, // 部门
+		models.SysPost{}, // 岗位
+		adapter.CasbinRule{},
 	)
 	if err != nil {
 		global.MA_LOG.Error("register table failed", zap.Error(err))

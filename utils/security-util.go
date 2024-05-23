@@ -18,7 +18,16 @@ func GetUserId(c *gin.Context) int {
 	return data.UserId
 }
 
+func GetRoleCode(c *gin.Context) string {
+	data := ExtractClaims(c)
+	return data.RoleCode
+}
+
 // IsAdminOfUserId 判断用户是否是超级管理员（超级管理员只有一位，系统默认用户admin）
 func IsAdminOfUserId(userId int) bool {
 	return userId == 1
+}
+
+func IsAdminOfRoleCode(roleCode string) bool {
+	return roleCode == "admin"
 }

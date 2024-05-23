@@ -1,11 +1,10 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"meng-admin-gin/app/admin/dto"
-	"meng-admin-gin/app/admin/model"
+	"meng-admin-gin/app/admin/models"
 	"meng-admin-gin/app/admin/service"
 	"meng-admin-gin/common/api"
 	"meng-admin-gin/common/code"
@@ -36,7 +35,7 @@ func (e MenuApi) GetMenuList(c *gin.Context) {
 		e.Error(code.INVALID_PARAM, err)
 		return
 	}
-	var list = make([]model.SysMenu, 0)
+	var list = make([]models.SysMenu, 0)
 	err = s.GetPage(&req, &list).Error
 	if err != nil {
 		e.Error(code.ERROR, err)
@@ -61,8 +60,7 @@ func (e MenuApi) GetMenuById(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("menuId: ", req.GetId())
-	var object = model.SysMenu{}
+	var object = models.SysMenu{}
 	err = s.GetMenuById(&req, &object).Error
 	if err != nil {
 		e.Error(code.ERROR, err)
@@ -183,7 +181,7 @@ func (e MenuApi) GetRouters(c *gin.Context) {
 		return
 	}
 
-	menus, err := s.GetRouterByUserId(utils.GetUserID((c)))
+	menus, err := s.GetRouterByUserId(utils.GetRoleCode(c))
 	if err != nil {
 		e.ErrorWithMsg(code.ERROR, err, "查询失败")
 		return

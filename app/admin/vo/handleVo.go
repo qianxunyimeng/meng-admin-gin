@@ -5,9 +5,10 @@
 package vo
 
 type RouterHandleVo struct {
-	Title     string `json:"title"`
-	Icon      string `json:"icon"`
-	Component string `json:"component"`
+	Title       string `json:"title"`
+	Icon        string `json:"icon"`
+	IsKeepAlive bool   `json:"isKeepAlive"`
+	Component   string `json:"component"`
 }
 
 func (r *RouterHandleVo) SetTitle(title string) {

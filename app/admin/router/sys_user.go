@@ -14,14 +14,22 @@ func init() {
 // 需认证的路由代码
 func registerSysUserRouter(r *gin.RouterGroup, authMiddleware *jwt.GinJWTMiddleware) {
 	api := api.SysUserApi{}
-	v1 := r.Group("sys-user")
+	r1 := r.Group("sys-user")
 	{
-		v1.POST("", api.Register)
-		// Refresh time can be longer than token timeout
+		r1.GET("", api.GetPage)
+		r1.GET("/:id", api.Get)
+		r1.POST("", api.Register)
+		r1.PUT("", api.Update)
+		r1.DELETE("", api.Delete)
+		r1.PUT("/status/change", api.UpdateStatus)
+	}
+	user := r.Group("user")
+	{
+		user.PUT("/pwd/reset", api.ResetPwd)
 	}
 
-	v1auth := r.Group("").Use(middleware.JWTAuth())
+	r1auth := r.Group("").Use(middleware.JWTAuth())
 	{
-		v1auth.GET("/getInfo", api.GetInfo)
+		r1auth.GET("/getInfo", api.GetInfo)
 	}
 }

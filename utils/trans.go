@@ -3,7 +3,10 @@
 // @Desc
 package utils
 
-import "strings"
+import (
+	"reflect"
+	"strings"
+)
 
 // gin 翻译器 返回数据 修正
 func RemoveTopStruct(fileds map[string]string) map[string]string {
@@ -46,4 +49,19 @@ func addValueToMap(fields map[string]string) map[string]interface{} {
 		}
 	}
 	return res
+}
+
+func structToMap(s interface{}) map[string]interface{} {
+	out := make(map[string]interface{})
+	v := reflect.ValueOf(s)
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+
+	for i := 0; i < v.NumField(); i++ {
+		fieldName := v.Type().Field(i).Name
+		fieldValue := v.Field(i).Interface()
+		out[fieldName] = fieldValue
+	}
+	return out
 }

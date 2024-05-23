@@ -7,5 +7,6 @@ const (
 	SUCCESS       = 0
 	ERROR         = 1
 	INVALID_PARAM = 2 // 参数错误
-	UNAUTHORIZED  = 3 // 未授权
+	FORBIDDEN     = 3 // 禁止访问
+	EXPIRED       = 4 // 授权已过期
 )

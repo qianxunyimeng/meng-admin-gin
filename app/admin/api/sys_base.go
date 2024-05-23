@@ -10,7 +10,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"meng-admin-gin/app/admin/dto"
-	"meng-admin-gin/app/admin/model"
+	"meng-admin-gin/app/admin/models"
 	"meng-admin-gin/app/admin/service"
 	"meng-admin-gin/common/api"
 	"meng-admin-gin/common/code"
@@ -63,7 +63,7 @@ func (r SysBaseApi) Login(c *gin.Context) {
 			return
 		}
 
-		if user.Status != 1 {
+		if user.Status != "1" {
 			s.Log.Error("登陆失败! 用户被禁止登录!")
 			s.Cache.Increase(key)
 			r.ErrorWithMsg(code.ERROR, nil, "用户被禁止登录!")
@@ -79,12 +79,13 @@ func (r SysBaseApi) Login(c *gin.Context) {
 	return
 }
 
-func (r SysBaseApi) TokenNext(user model.SysUser) {
+func (r SysBaseApi) TokenNext(user models.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.MA_CONFIG.JWT.SigningKey)} // 唯一签名
 	claims := j.CreateClaims(utils.BaseClaims{
 		UserId:   user.UserId,
+		RoleCode: user.Role.RoleCode,
 		NickName: user.NickName,
-		Username: user.Username,
+		Username: user.UserName,
 	})
 	token, err := j.CreateToken(claims)
 
@@ -104,8 +105,8 @@ func (r SysBaseApi) TokenNext(user model.SysUser) {
 		return
 	}
 
-	if jwtStr, err := jwtService.GetRedisJWT(user.Username); err == redis.Nil {
-		if err := jwtService.SetRedisJWT(token, user.Username); err != nil {
+	if jwtStr, err := jwtService.GetRedisJWT(user.UserName); err == redis.Nil {
+		if err := jwtService.SetRedisJWT(token, user.UserName); err != nil {
 			global.MA_LOG.Error("设置登录状态失败!", zap.Error(err))
 			r.ErrorWithMsg(code.ERROR, nil, "设置登录状态失败!")
 			return
@@ -122,13 +123,13 @@ func (r SysBaseApi) TokenNext(user model.SysUser) {
 		r.ErrorWithMsg(code.ERROR, nil, "设置登录状态失败!")
 		return
 	} else {
-		var blackJWT model.JwtBlacklist
+		var blackJWT models.JwtBlacklist
 		blackJWT.Jwt = jwtStr
 		if err := jwtService.JsonInBlacklist(blackJWT); err != nil {
 			r.ErrorWithMsg(code.ERROR, nil, "jwt作废失败!")
 			return
 		}
-		if err := jwtService.SetRedisJWT(token, user.Username); err != nil {
+		if err := jwtService.SetRedisJWT(token, user.UserName); err != nil {
 			r.ErrorWithMsg(code.ERROR, nil, "设置登录状态失败!")
 			return
 		}
@@ -188,7 +189,7 @@ func (r SysBaseApi) GenerateCaptcha(c *gin.Context) {
 
 func (r SysBaseApi) Logout(c *gin.Context) {
 	token := utils.GetToken(c)
-	jwt := model.JwtBlacklist{Jwt: token}
+	jwt := models.JwtBlacklist{Jwt: token}
 	err := jwtService.JsonInBlacklist(jwt)
 	if err != nil {
 		global.MA_LOG.Error("登出失败!", zap.Error(err))

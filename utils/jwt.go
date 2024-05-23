@@ -5,6 +5,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"meng-admin-gin/global"
 	"time"
@@ -14,7 +15,7 @@ var (
 	TokenExpired     = errors.New("Token is expired") // token 已过期
 	TokenNotValidYet = errors.New("Token not active yet")
 	TokenMalformed   = errors.New("That's not even a token")
-	TokenInvalid     = errors.New("Couldn't handle this token:") // token 无效
+	TokenInvalid     = errors.New("Couldn't handle this token") // token 无效
 )
 
 type CustomClaims struct {
@@ -25,6 +26,7 @@ type CustomClaims struct {
 
 type BaseClaims struct {
 	UserId   int
+	RoleCode string
 	Username string
 	NickName string
 }
@@ -42,6 +44,7 @@ func NewJWT() *JWT {
 func (j *JWT) CreateClaims(baseClaims BaseClaims) CustomClaims {
 	bf, _ := ParseDuration(global.MA_CONFIG.JWT.BufferTime)
 	ep, _ := ParseDuration(global.MA_CONFIG.JWT.ExpiresTime)
+	fmt.Println("token 过期时间： ", ep)
 	claims := CustomClaims{
 		BaseClaims: baseClaims,
 		BufferTime: int64(bf / time.Second), // 缓冲时间1天 缓冲时间内会获得新的token刷新令牌 此时一个用户会存在两个有效令牌 但是前端只留一个 另一个会丢失
@@ -81,7 +84,7 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 		if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 			return claims, nil
 		}
-		return nil, TokenInvalid
+		return nil, TokenExpired
 
 	} else {
 		return nil, TokenInvalid

@@ -12,4 +12,11 @@ const (
 	LAYOUT string = "Layout"
 
 	INNER_LINK string = "InnerLink"
+
+	// 正常页面
+	NORMAL_PAGE string = "1"
+	// 内嵌页面
+	IFRAME_PAGE string = "3"
+	// 外部链接
+	LINK_PAGE string = "2"
 )

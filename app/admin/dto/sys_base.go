@@ -3,14 +3,12 @@
 // @Desc
 package dto
 
-import (
-	"meng-admin-gin/app/admin/model"
-)
+import "meng-admin-gin/app/admin/models"
 
 type LoginResp struct {
-	User      model.SysUser `json:"user"`
-	Token     string        `json:"token"`
-	ExpiresAt int64         `json:"expiresAt"`
+	User      models.SysUser `json:"user"`
+	Token     string         `json:"token"`
+	ExpiresAt int64          `json:"expiresAt"`
 }
 
 type Login struct {

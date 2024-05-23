@@ -5,7 +5,7 @@ type Pagination struct {
 	PageSize int `form:"pageSize"`
 }
 
-func (m *Pagination) GetPageIndex() int {
+func (m *Pagination) GetPageNum() int {
 	if m.PageNum <= 0 {
 		m.PageNum = 1
 	}

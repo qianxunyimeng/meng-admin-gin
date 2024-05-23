@@ -73,7 +73,7 @@ func setup() {
 	if global.MA_DB == nil {
 		global.MA_LOG.Panic("初始化数据库链接失败")
 	}
-	//initialize.RegisterTables() // 初始化表
+	initialize.RegisterTables() // 初始化表
 	// 程序结束前关闭数据库链接
 	//db, _ := global.MA_DB.DB()
 	//defer db.Close()

@@ -61,8 +61,8 @@ func OK(c *gin.Context, data interface{}, msg string) {
 func PageOK(c *gin.Context, result interface{}, count int, pageIndex int, pageSize int, msg string) {
 	var res page
 	res.List = result
-	res.Count = count
-	res.PageIndex = pageIndex
+	res.Total = count
+	res.PageNum = pageIndex
 	res.PageSize = pageSize
 	OK(c, res, msg)
 }

@@ -105,8 +105,11 @@ func TokenFromQuery(c *gin.Context, key string) (string, error) {
 
 func TokenFromCookie(c *gin.Context, key string) (string, error) {
 	fmt.Println("token from cookie: ", key)
-	cookie, _ := c.Cookie(key)
-
+	cookie, err := c.Cookie(key)
+	if err != nil {
+		fmt.Println(err.Error())
+		return "", err
+	}
 	if cookie == "" {
 		return "", ErrEmptyCookieToken
 	}

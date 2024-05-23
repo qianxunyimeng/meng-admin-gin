@@ -29,8 +29,8 @@ system:
 
 jwt:
   signing-key: zjRW6R^MpK!Z&&&H^3gV%Kya&uTMBW!j
-  expires-time: 1d
-  buffer-time: 1h
+  expires-time: 3m
+  buffer-time: 2m
   issuer: "meng-admin"
 local:
   path: uploads/file
@@ -56,7 +56,7 @@ mysql:
   password: 955330@_
   path:
   engine: ""
-  log-mode: error
+  log-mode: info
   max-idle-conns: 10
   max-open-conns: 100
   singular: false

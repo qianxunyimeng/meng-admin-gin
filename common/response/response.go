@@ -21,9 +21,9 @@ type response struct {
 }
 
 type Page struct {
-	Count     int `json:"count"`
-	PageIndex int `json:"pageIndex"`
-	PageSize  int `json:"pageSize"`
+	Total    int `json:"total"`
+	PageNum  int `json:"pageNum"`
+	PageSize int `json:"pageSize"`
 }
 
 type page struct {
